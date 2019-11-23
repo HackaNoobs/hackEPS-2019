@@ -14,11 +14,8 @@ import java.util.List;
 @Component
 public class DbSeeder implements CommandLineRunner {
 
-    private final DeviceRepository deviceRepository;
-
-    public DbSeeder(DeviceRepository deviceRepository) {
-        this.deviceRepository = deviceRepository;
-    }
+    @Autowired
+    private DeviceRepository deviceRepository;
 
     @Override
     public void run(String... strings) throws Exception {
@@ -38,6 +35,7 @@ public class DbSeeder implements CommandLineRunner {
         Device test = new Device();
         test.setId("test");
         test.setName("Test");
+        test.setUser("user");
         test.setStatus(ReportStatus.ON);
         test.setReports(reports);
 
@@ -45,7 +43,10 @@ public class DbSeeder implements CommandLineRunner {
         this.deviceRepository.deleteAll();
 
         //Add things created before
+        System.out.println("VAIG A GUARDAR");
 
         this.deviceRepository.save(test);
+
+        System.out.println("He GUARDAT");
     }
 }

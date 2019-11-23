@@ -11,4 +11,6 @@ import java.util.List;
 public interface DeviceRepository extends MongoRepository<Device, String> {
 
     List<Device> findAllByUserAndStatus(String user, ReportStatus status);
+
+    List<Device> findAllByUser(String username);
 }
