@@ -13,12 +13,6 @@ float temperature;
 float t;
 float h;
 
-/*
-    ATTENTION - the structure we are going to send MUST
-    be declared "packed" otherwise we'll get padding mismatch
-    on the sent data - see http://www.catb.org/esr/structure-packing/#_structure_alignment_and_padding
-    for more details
-*/
 typedef struct __attribute__ ((packed)) sigfox_message {
   uint8_t status;
   int16_t moduleTemperature;
@@ -30,6 +24,7 @@ typedef struct __attribute__ ((packed)) sigfox_message {
 SigfoxMessage msg;
 
 void setup() {
+  Serial.begin(9600);
   if (!SigFox.begin()) {
     // Something is really wrong, try rebooting
     // Reboot is useful if we are powering the board using an unreliable power source
@@ -59,9 +54,6 @@ void loop() {
   // Wait at least 30ms after first configuration (100ms before)
   delay(100);
 
-  // We can only read the module temperature before SigFox.end()
-  temperature = SigFox.internalTemperature();
-  msg.moduleTemperature = convertoFloatToInt16(temperature, 60, -60);
   Serial.println("Temperature= " + (String) msg.t);
   Serial.println("Humidty= " + (String) msg.h);
   
@@ -77,7 +69,7 @@ void loop() {
   SigFox.end();
 
   //Sleep for 15 minutes
-  LowPower.sleep(15 * 60 * 1000);
+  LowPower.sleep(1000 * 15 * 60);
 }
 
 void reboot() {
