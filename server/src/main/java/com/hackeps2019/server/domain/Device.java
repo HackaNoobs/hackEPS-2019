@@ -14,6 +14,8 @@ public class Device {
     @Id
     private String id;
     private String name;
+    @Indexed(direction = IndexDirection.ASCENDING)
+    private String user;
     private ReportStatus status;
     @Indexed(direction = IndexDirection.ASCENDING)
     private List<Report> reports;
